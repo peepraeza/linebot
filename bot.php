@@ -64,9 +64,8 @@ if(!is_null($events)){
     $replyToken = $events['events'][0]['replyToken'];
     $typeMessage = $events['events'][0]['message']['type'];
     $userMessage = $events['events'][0]['message']['text'];
-    $text = $event['message']['text'];
     $Topic = "NodeMCU1" ;
-	getMqttfromlineMsg($Topic,$text);
+	getMqttfromlineMsg($Topic,"ON");
     switch ($typeMessage){
         case 'text':
             switch ($userMessage) {
@@ -89,9 +88,10 @@ if(!is_null($events)){
     				break; 
                 case "ON":
                     $Topic = "NodeMCU1" ;
-					getMqttfromlineMsg($Topic,'ON');
+					getMqttfromlineMsg($Topic,"ON");
+					$replyData = "LED ON";
                 default:
-                    $textReplyMessage = " คุณไม่ได้พิมพ์ A และ B";
+                    $replyData = " คุณไม่ได้พิมพ์ A และ B";
                     break;                                      
             }
             break;
@@ -104,12 +104,13 @@ if(!is_null($events)){
 // $textMessageBuilder = new TextMessageBuilder($textReplyMessage);
  
 //l ส่วนของคำสั่งตอบกลับข้อความ
-// $response = $bot->replyMessage($replyToken,$replyData);
-// if ($response->isSucceeded()) {
-//     echo 'Succeeded!';
-//     return;
-// }
+
+$response = $bot->replyMessage($replyToken,$replyData);
+if ($response->isSucceeded()) {
+    echo 'Succeeded!';
+     return;
+}
  
-// // Failed
-// echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
-// ?>
+//Failed
+echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
+?>
