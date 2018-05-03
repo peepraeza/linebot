@@ -83,9 +83,9 @@ if(!is_null($events)){
         				)
     				);
     				break; 
-                case "B":
-                    $textReplyMessage = "คุณพิมพ์ B";
-                    break;
+                case "ON":
+                    $Topic = "NodeMCU1" ;
+					getMqttfromlineMsg($Topic,$text);
                 default:
                     $textReplyMessage = " คุณไม่ได้พิมพ์ A และ B";
                     break;                                      
@@ -97,7 +97,7 @@ if(!is_null($events)){
     }
 }
 // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
-$textMessageBuilder = new TextMessageBuilder($textReplyMessage);
+// $textMessageBuilder = new TextMessageBuilder($textReplyMessage);
  
 //l ส่วนของคำสั่งตอบกลับข้อความ
 $response = $bot->replyMessage($replyToken,$replyData);
