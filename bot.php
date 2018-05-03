@@ -89,7 +89,7 @@ if(!is_null($events)){
                 case "ON":
                     $Topic = "NodeMCU1" ;
 					getMqttfromlineMsg($Topic,"ON");
-					$replyData = "LED ON";
+					$replyData = new TextMessageBuilder("LED ON");
                 default:
                     $replyData = " คุณไม่ได้พิมพ์ A และ B";
                     break;                                      
