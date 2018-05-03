@@ -3,7 +3,8 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
- 
+ require("pub.php");
+ require("line.php");
 // include composer autoload
 require_once './vendor/autoload.php';
  
@@ -72,11 +73,11 @@ if(!is_null($events)){
                 			array(
                     			new MessageTemplateActionBuilder(
                         			'Yes', // ข้อความสำหรับปุ่มแรก
-                        			'YES'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                        			'ON'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                     			),
                     			new MessageTemplateActionBuilder(
                         			'No', // ข้อความสำหรับปุ่มแรก
-                        			'NO' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                        			'OFF' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                     			)
                 			)
         				)
