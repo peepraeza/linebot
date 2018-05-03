@@ -90,6 +90,7 @@ if(!is_null($events)){
      //                $Topic = "NodeMCU1" ;
 					// getMqttfromlineMsg($Topic,"ON");
 					$replyData = new TextMessageBuilder("LED ON");
+					break;
                 default:
                     $replyData = new TextMessageBuilder("ERROR");
                     break;                                      
