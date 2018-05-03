@@ -64,8 +64,8 @@ if(!is_null($events)){
     $replyToken = $events['events'][0]['replyToken'];
     $typeMessage = $events['events'][0]['message']['type'];
     $userMessage = $events['events'][0]['message']['text'];
-    $Topic = "NodeMCU1" ;
-	getMqttfromlineMsg($Topic,"ON");
+ //    $Topic = "NodeMCU1" ;
+	// getMqttfromlineMsg($Topic,"ON");
     switch ($typeMessage){
         case 'text':
             switch ($userMessage) {
@@ -87,11 +87,11 @@ if(!is_null($events)){
     				);
     				break; 
                 case "B":
-                    $Topic = "NodeMCU1" ;
-					getMqttfromlineMsg($Topic,"ON");
+     //                $Topic = "NodeMCU1" ;
+					// getMqttfromlineMsg($Topic,"ON");
 					$replyData = new TextMessageBuilder("LED ON");
                 default:
-                    $replyData = " คุณไม่ได้พิมพ์ A และ B";
+                    $replyData = new TextMessageBuilder("ERROR");
                     break;                                      
             }
             break;
