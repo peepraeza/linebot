@@ -63,6 +63,9 @@ if(!is_null($events)){
     $replyToken = $events['events'][0]['replyToken'];
     $typeMessage = $events['events'][0]['message']['type'];
     $userMessage = $events['events'][0]['message']['text'];
+ //    $text = $event['message']['text'];
+ //    $Topic = "NodeMCU1" ;
+	// getMqttfromlineMsg($Topic,$text);
     switch ($typeMessage){
         case 'text':
             switch ($userMessage) {
@@ -85,7 +88,7 @@ if(!is_null($events)){
     				break; 
                 case "ON":
                     $Topic = "NodeMCU1" ;
-					getMqttfromlineMsg($Topic,$text);
+					getMqttfromlineMsg($Topic,'ON');
                 default:
                     $textReplyMessage = " คุณไม่ได้พิมพ์ A และ B";
                     break;                                      
