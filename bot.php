@@ -66,8 +66,22 @@ if(!is_null($events)){
         case 'text':
             switch ($userMessage) {
                 case "A":
-                    $textReplyMessage = "คุณพิมพ์ A";
-                    break;
+    				$replyData = new TemplateMessageBuilder('Confirm Template',
+        				new ConfirmTemplateBuilder(
+                			'Confirm template builder', // ข้อความแนะนำหรือบอกวิธีการ หรือคำอธิบาย
+                			array(
+                    			new MessageTemplateActionBuilder(
+                        			'Yes', // ข้อความสำหรับปุ่มแรก
+                        			'YES'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                    			),
+                    			new MessageTemplateActionBuilder(
+                        			'No', // ข้อความสำหรับปุ่มแรก
+                        			'NO' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                    			)
+                			)
+        				)
+    				);
+    				break; 
                 case "B":
                     $textReplyMessage = "คุณพิมพ์ B";
                     break;
@@ -85,7 +99,7 @@ if(!is_null($events)){
 $textMessageBuilder = new TextMessageBuilder($textReplyMessage);
  
 //l ส่วนของคำสั่งตอบกลับข้อความ
-$response = $bot->replyMessage($replyToken,$textMessageBuilder);
+$response = $bot->replyMessage($replyToken,$replyData);
 if ($response->isSucceeded()) {
     echo 'Succeeded!';
     return;
