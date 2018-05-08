@@ -59,7 +59,7 @@ $content = file_get_contents('php://input');
 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
 $events = json_decode($content, true);
 if (!is_null($events['ESP'])) {
-	
+	$replyToken = $events['events'][0]['replyToken'];
 	$replyData = new TextMessageBuilder("fern test");
 	$response = $bot->replyMessage($replyToken,$replyData);
 	if ($response->isSucceeded()) {
