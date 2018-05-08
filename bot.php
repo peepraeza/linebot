@@ -91,7 +91,7 @@ if (!is_null($events['ESP'])) {
                 case "B":
                     // $Topic = "NodeMCU1" ;
 					// getMqttfromlineMsg($Topic,"ON");
-					$replyData = new TextMessageBuilder($events['events'][0]['source']);
+					$replyData = new TextMessageBuilder($events);
 					break;
                 default:
                     $replyData = new TextMessageBuilder("ERROR");
