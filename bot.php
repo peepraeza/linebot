@@ -61,6 +61,11 @@ $events = json_decode($content, true);
 if (!is_null($events['ESP'])) {
 	
 	$replyData = new TextMessageBuilder("fern test");
+	$response = $bot->replyMessage($replyToken,$replyData);
+	if ($response->isSucceeded()) {
+    echo 'Succeeded!';
+     return;
+	}
 		
 	echo "OK";
 }else if(!is_null($events)){
@@ -102,17 +107,18 @@ if (!is_null($events['ESP'])) {
             $textReplyMessage = json_encode($events);
             break;  
     }
+    $response = $bot->replyMessage($replyToken,$replyData);
+	if ($response->isSucceeded()) {
+    echo 'Succeeded!';
+     return;
+}
 }
 // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
 // $textMessageBuilder = new TextMessageBuilder($textReplyMessage);
  
 //l ส่วนของคำสั่งตอบกลับข้อความ
 
-$response = $bot->replyMessage($replyToken,$replyData);
-if ($response->isSucceeded()) {
-    echo 'Succeeded!';
-     return;
-}
+
  
 //Failed
 // echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
