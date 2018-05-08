@@ -65,6 +65,7 @@ if (!is_null($events['ESP'])) {
 }else if(!is_null($events)){
 	echo  $events['events'][0]['replyToken'];
     // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
+    
     $replyToken = $events['events'][0]['replyToken'];
     $typeMessage = $events['events'][0]['message']['type'];
     $userMessage = $events['events'][0]['message']['text'];
@@ -91,7 +92,7 @@ if (!is_null($events['ESP'])) {
                 case "B":
                     // $Topic = "NodeMCU1" ;
 					// getMqttfromlineMsg($Topic,"ON");
-					$replyData = new TextMessageBuilder($events);
+					$replyData = new TextMessageBuilder(json_encode($events));
 					break;
                 default:
                     $replyData = new TextMessageBuilder("ERROR");
