@@ -58,11 +58,7 @@ $content = file_get_contents('php://input');
 $title = "fern";
 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
 $events = json_decode($content, true);
-if (!is_null($events['ESP'])) {
-	send_LINE($events['ESP']);
-		
-	echo "OK";
-}else if(!is_null($events)){
+if(!is_null($events)){
 	echo  $events['events'][0]['replyToken'];
     // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
     
@@ -107,7 +103,7 @@ if (!is_null($events['ESP'])) {
 	if ($response->isSucceeded()) {
     echo 'Succeeded!';
      return;
-}
+	}
 }
 // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
 // $textMessageBuilder = new TextMessageBuilder($textReplyMessage);
