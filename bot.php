@@ -82,13 +82,14 @@ if (!is_null($events['ESP'])) {
     send_LINE($messages);
         
     echo "OK";
-}else if(!is_null($events['events'])){
-    
-    $response = $bot->replyMessage($replyToken,$replyData);
-    if ($response->isSucceeded()) {
-    echo 'Succeeded!';
-     return;
-    }
+}else if(!is_null($events['events'])){   
+    $messages = [       
+      'type' => 'text',
+      'text' => "fern"
+    ];
+    send_LINE($messages);
+
+    echo "OK2";
 }
 // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
 // $textMessageBuilder = new TextMessageBuilder($textReplyMessage);
