@@ -55,13 +55,15 @@ $bot = new LINEBot($httpClient, array('channelSecret' => LINE_MESSAGE_CHANNEL_SE
  
 // คำสั่งรอรับการส่งค่ามาของ LINE Messaging API
 $content = file_get_contents('php://input');
+ 
 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
 $events = json_decode($content, true);
 if (!is_null($events['ESP'])) {
-	send_LINE($events['ESP']);
-		
-	echo "OK";
+    send_LINE($events['ESP']);
+        
+    echo "OK";
 }else if(!is_null($events)){
+    echo  $events['events'][0]['replyToken'];
     // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
     
     $replyToken = $events['events'][0]['replyToken'];
@@ -71,40 +73,41 @@ if (!is_null($events['ESP'])) {
         case 'text':
             switch ($userMessage) {
                 case "A":
-    				$replyData = new TemplateMessageBuilder('Confirm Template',
-        				new ConfirmTemplateBuilder(
-                			'Confirm template builder', // ข้อความแนะนำหรือบอกวิธีการ หรือคำอธิบาย
-                			array(
-                    			new MessageTemplateActionBuilder(
-                        			'Yes', // ข้อความสำหรับปุ่มแรก
-                        			'ON'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                    			),
-                    			new MessageTemplateActionBuilder(
-                        			'No', // ข้อความสำหรับปุ่มแรก
-                        			'OFF' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                    			)
-                			)
-        				)
-    				);
-    				break; 
+                    $replyData = new TemplateMessageBuilder('Confirm Template',
+                        new ConfirmTemplateBuilder(
+                            'Confirm template builder', // ข้อความแนะนำหรือบอกวิธีการ หรือคำอธิบาย
+                            array(
+                                new MessageTemplateActionBuilder(
+                                    'Yes', // ข้อความสำหรับปุ่มแรก
+                                    'ON'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                ),
+                                new MessageTemplateActionBuilder(
+                                    'No', // ข้อความสำหรับปุ่มแรก
+                                    'OFF' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                )
+                            )
+                        )
+                    );
+                    break; 
                 case "B":
-                	// header("Refresh:0");
-					$replyData = new TextMessageBuilder("send ja");
-					break;
+                    // $Topic = "NodeMCU1" ;
+                    // getMqttfromlineMsg($Topic,"ON");
+                    $replyData = new TextMessageBuilder(json_encode($events));
+                    break;
                 default:
                     $replyData = new TextMessageBuilder("ERROR");
                     break;                                      
             }
             break;
         default:
-            $replyData = json_encode($events);
+            $textReplyMessage = json_encode($events);
             break;  
     }
     $response = $bot->replyMessage($replyToken,$replyData);
-	if ($response->isSucceeded()) {
+    if ($response->isSucceeded()) {
     echo 'Succeeded!';
      return;
-	}
+}
 }
 // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
 // $textMessageBuilder = new TextMessageBuilder($textReplyMessage);
@@ -114,5 +117,5 @@ if (!is_null($events['ESP'])) {
 
  
 //Failed
-echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
+// echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
 ?>
