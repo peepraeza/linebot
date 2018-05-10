@@ -60,40 +60,76 @@ $content = file_get_contents('php://input');
 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
 $events = json_decode($content, true);
 if (!is_null($events['ESP'])) {
-    $messages = [       
-      "type" => "template",
-      "altText"=> "this is a confirm template",
-      "template"=> [
-        "type" => "confirm",
-        "text"=> "Are you sure?", 
-        "actions" => [
-          [
-            "type"=> "message",
-            "label"=> "Yes",
-            "text"=> "yes"
-          ],
-          [
-            "type"=> "message",
-            "label"=> "No",
-            "text"=> "no"
+  $espMessage = $events['ESP']
+  switch ($espMessage) {
+    case "notcar":
+      $myfile = fopen("testfile.txt", "w");
+      fwrite($myfile, "notcar");
+      fclose($myfile);
+      break;
+    case "carout":
+      $myfile = fopen("testfile.txt", "w");
+      fwrite($myfile, "notcar");
+      fclose($myfile);
+      $messages = [       
+        'type' => 'text',
+        'text' => 'car out'
+      ];
+      send_LINE($messages);
+      break;
+    case "ready":
+      $myfile = fopen("testfile.txt", "w");
+      fwrite($myfile, "ready");
+      fclose($myfile);
+      break;
+    case "wait":
+      $myfile = fopen("testfile.txt", "w");
+      fwrite($myfile, "wait");
+      fclose($myfile);
+
+      $messages = [       
+        "type" => "template",
+        "altText"=> "this is a confirm template",
+        "template"=> [
+          "type" => "confirm",
+          "text"=> "Are you sure?", 
+          "actions" => [
+            [
+              "type"=> "message",
+              "label"=> "Yes",
+              "text"=> "yes"
+            ],
+            [
+              "type"=> "message",
+              "label"=> "No",
+              "text"=> "no"
+            ]
           ]
-        ]
-      ]     
-    ];
-    send_LINE($messages);
+        ]     
+      ];
+      send_LINE($messages);
+      break;
+    default:
+      break;
+  }
+    
         
-    echo "OK";
 }else if(!is_null($events['events'])){ 
-    $userMessage = $events['events'][0]['message']['text'];  
-    switch ($userMessage) {
+    $userMessage = $events['events'][0]['message']['text']; 
+
+    $myfile = fopen("testfile.txt", "r");
+    $check = fread($myfile); 
+    fclose($myfile);
+    if($check == "wait"){
+      switch ($userMessage) {
         case "yes":
-            $msg = "led on";
+            $msg = "led off";
             $myfile = fopen("testfile.txt", "w");
             fwrite($myfile, "no");
             fclose($myfile);
             break; 
         case "no":
-            $msg = "led off";
+            $msg = "no action";
             $myfile = fopen("testfile.txt", "w");
             fwrite($myfile, "pee");
             fclose($myfile);
@@ -101,6 +137,9 @@ if (!is_null($events['ESP'])) {
         default:
             $msg = "error";
             break;                                      
+      }
+    }else{
+      $msg = "no car then no action";
     }
     $messages = [       
       'type' => 'text',
