@@ -60,7 +60,58 @@ $content = file_get_contents('php://input');
 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
 $events = json_decode($content, true);
 if (!is_null($events['ESP'])) {
-  
+  $espMessage = $events['ESP'];
+  switch ($espMessage) {
+    case "notcar":
+      $myfile = fopen("testfile.txt", "w");
+      fwrite($myfile, "notcar");
+      fclose($myfile);
+      break;
+    case "carout":
+      $myfile = fopen("testfile.txt", "w");
+      fwrite($myfile, "notcar");
+      fclose($myfile);
+      $messages = [       
+        'type' => 'text',
+        'text' => 'car out'
+      ];
+      send_LINE($messages);
+      break;
+    case "ready":
+      $myfile = fopen("testfile.txt", "w");
+      fwrite($myfile, "ready");
+      fclose($myfile);
+      break;
+    case "wait":
+      $myfile = fopen("testfile.txt", "w");
+      fwrite($myfile, "wait");
+      fclose($myfile);
+
+      $messages = [       
+        "type" => "template",
+        "altText"=> "this is a confirm template",
+        "template"=> [
+          "type" => "confirm",
+          "text"=> "Are you sure?", 
+          "actions" => [
+            [
+              "type"=> "message",
+              "label"=> "Yes",
+              "text"=> "yes"
+            ],
+            [
+              "type"=> "message",
+              "label"=> "No",
+              "text"=> "no"
+            ]
+          ]
+        ]     
+      ];
+      send_LINE($messages);
+      break;
+    default:
+      break;
+  }
     
         
 }else if(!is_null($events['events'])){ 
