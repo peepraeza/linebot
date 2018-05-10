@@ -55,10 +55,13 @@ $bot = new LINEBot($httpClient, array('channelSecret' => LINE_MESSAGE_CHANNEL_SE
  
 // คำสั่งรอรับการส่งค่ามาของ LINE Messaging API
 $content = file_get_contents('php://input');
-$title = "fern";
 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
 $events = json_decode($content, true);
-if(!is_null($events)){
+if (!is_null($events['ESP'])) {
+	send_LINE($events['ESP']);
+		
+	echo "OK";
+}else if(!is_null($events)){
 	echo  $events['events'][0]['replyToken'];
     // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
     
@@ -86,7 +89,6 @@ if(!is_null($events)){
     				);
     				break; 
                 case "B":
-                	$title = "no";
                 	// header("Refresh:0");
 					$replyData = new TextMessageBuilder("send ja");
 					break;
