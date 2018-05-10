@@ -1,9 +1,8 @@
-<?php
-  $content = file_get_contents('checkdata.php');
-  $events = json_decode($content, true);
-  if (!is_null($events)) {
-    echo "fern";
-  }else{
-    echo "pee";
-  }
-?>
+<html>
+<body>
+
+Welcome <?php echo $_POST["name"]; ?><br>
+Your email address is: <?php echo $_POST["email"]; ?>
+
+</body>
+</html>
