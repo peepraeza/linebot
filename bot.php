@@ -94,6 +94,9 @@ if (!is_null($events['ESP'])) {
             break; 
         case "no":
             $msg = "led off";
+            $myfile = fopen("testfile.txt", "w");
+            fwrite($myfile, "pee");
+            fclose($myfile);
             break;
         default:
             $msg = "error";
