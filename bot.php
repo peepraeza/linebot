@@ -92,7 +92,7 @@ if (!is_null($events['ESP'])) {
     				break; 
                 case "B":
                 	$title = "no";
-                	header("Refresh:0");
+                	// header("Refresh:0");
 					$replyData = new TextMessageBuilder("send ja");
 					break;
                 default:
@@ -123,7 +123,7 @@ if (!is_null($events['ESP'])) {
 <!DOCTYPE html>
 <html>
 <body>
-	<form action="welcome_get.php" method="get">
+	<form action="checkdata.php" method="get">
 	<input type="text" name="name" value="<?php echo $title ?>"/>
 </form>
 </body>
