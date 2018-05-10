@@ -87,7 +87,7 @@ if (!is_null($events['ESP'])) {
     switch ($userMessage) {
         case "yes":
             $msg = "led on";
-            fern();
+            // fern();
             break; 
         case "no":
             $msg = "led off";
