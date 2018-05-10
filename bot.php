@@ -56,7 +56,7 @@ $bot = new LINEBot($httpClient, array('channelSecret' => LINE_MESSAGE_CHANNEL_SE
  
 // คำสั่งรอรับการส่งค่ามาของ LINE Messaging API
 $content = file_get_contents('php://input');
- 
+$title = "fern";
 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
 $events = json_decode($content, true);
 if (!is_null($events['ESP'])) {
@@ -91,16 +91,9 @@ if (!is_null($events['ESP'])) {
     				);
     				break; 
                 case "B":
-                    // $Topic = "NodeMCU1" ;
-					// getMqttfromlineMsg($Topic,"ON");
-					var xmlhttp = new XMLHttpRequest();
-					xmlhttp.onreadystatechange = function() {
-					    if (this.readyState == 4 && this.status == 200) {
-					        document.getElementById("demo").innerHTML = "no";
-					    }
-					};
-					xmlhttp.open("GET", "checkdata.php", true);
-					xmlhttp.send();
+                	$title = "no";
+                	header("Refresh:0");
+					$replyData = new TextMessageBuilder("send ja");
 					break;
                 default:
                     $replyData = new TextMessageBuilder("ERROR");
@@ -127,3 +120,11 @@ if (!is_null($events['ESP'])) {
 //Failed
 // echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
 ?>
+<!DOCTYPE html>
+<html>
+<body>
+	<form action="welcome_get.php" method="get">
+	<input type="text" name="name" value="<?php echo $title ?>"/>
+</form>
+</body>
+</html>
