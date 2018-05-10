@@ -82,10 +82,22 @@ if (!is_null($events['ESP'])) {
     send_LINE($messages);
         
     echo "OK";
-}else if(!is_null($events['events'])){   
+}else if(!is_null($events['events'])){ 
+    $userMessage = $events['events'][0]['message']['text'];  
+    switch ($userMessage) {
+        case "yes":
+            $msg = "led on";
+            break; 
+        case "no":
+            $msg = "led off";
+            break;
+        default:
+            $msg = "error";
+            break;                                      
+    }
     $messages = [       
       'type' => 'text',
-      'text' => "fern"
+      'text' => $msg
     ];
     send_LINE($messages);
 
