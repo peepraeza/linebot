@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
  require("pub.php");
  require("line.php");
- require("test.php");
+ // require("test.php");
 // include composer autoload
 require_once './vendor/autoload.php';
  
@@ -88,7 +88,9 @@ if (!is_null($events['ESP'])) {
     switch ($userMessage) {
         case "yes":
             $msg = "led on";
-            fern($msg);
+            $myfile = fopen("testfile.txt", "w");
+            fwrite($myfile, "no");
+            fclose($myfile);
             break; 
         case "no":
             $msg = "led off";
@@ -109,14 +111,3 @@ if (!is_null($events['ESP'])) {
 
 
 ?>
-<html>
-<body>
-
-<form action="checkdata.php" method="post">
-Name: <input type="text" name="name"><br>
-E-mail: <input type="text" name="email"><br>
-<input type="submit">
-</form>
-
-</body>
-</html>
