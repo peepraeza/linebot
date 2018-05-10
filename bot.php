@@ -125,13 +125,13 @@ if (!is_null($events['ESP'])) {
         case "yes":
             $msg = "led off";
             $myfile = fopen("testfile.txt", "w");
-            fwrite($myfile, "no");
+            fwrite($myfile, "yes");
             fclose($myfile);
             break; 
         case "no":
             $msg = "no action";
             $myfile = fopen("testfile.txt", "w");
-            fwrite($myfile, "pee");
+            fwrite($myfile, "no");
             fclose($myfile);
             break;
         default:
