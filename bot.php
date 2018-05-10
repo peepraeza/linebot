@@ -119,11 +119,3 @@ if (!is_null($events['ESP'])) {
 //Failed
 // echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
 ?>
-<!DOCTYPE html>
-<html>
-<body>
-	<form action="checkdata.php" method="get">
-	<input type="text" name="name" value="<?php echo $title ?>"/>
-</form>
-</body>
-</html>
