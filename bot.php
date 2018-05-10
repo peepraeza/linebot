@@ -62,7 +62,6 @@ if (!is_null($events['ESP'])) {
 		
 	echo "OK";
 }else if(!is_null($events)){
-	echo  $events['events'][0]['replyToken'];
     // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
     
     $replyToken = $events['events'][0]['replyToken'];
@@ -98,7 +97,7 @@ if (!is_null($events['ESP'])) {
             }
             break;
         default:
-            $textReplyMessage = json_encode($events);
+            $replyData = json_encode($events);
             break;  
     }
     $response = $bot->replyMessage($replyToken,$replyData);
@@ -115,5 +114,5 @@ if (!is_null($events['ESP'])) {
 
  
 //Failed
-// echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
+echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
 ?>
