@@ -87,6 +87,7 @@ if (!is_null($events['ESP'])) {
     switch ($userMessage) {
         case "yes":
             $msg = "led on";
+            fern();
             break; 
         case "no":
             $msg = "led off";
@@ -103,13 +104,26 @@ if (!is_null($events['ESP'])) {
 
     echo "OK2";
 }
-// ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
-// $textMessageBuilder = new TextMessageBuilder($textReplyMessage);
- 
-//l ส่วนของคำสั่งตอบกลับข้อความ
 
+function fern(){
+  // where are we posting to?
+  $url = 'checkdata.php';
 
- 
-//Failed
-// echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
+  // what post fields?
+  $data = [
+     'test' => "no"
+  ];
+
+  // build the urlencoded data
+  $ch = curl_init('checkdata.php');
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json'
+  );
+
+  $result = curl_exec($ch);
+}
+
 ?>

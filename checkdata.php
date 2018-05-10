@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html>
-<body>
-<p id="demo">test</p>
-</body>
-</html>
+<?php
+  echo echo $_POST['test'];
+?>
