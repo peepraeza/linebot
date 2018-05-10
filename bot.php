@@ -5,6 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
  require("pub.php");
  require("line.php");
+ require("checkdata.php");
 // include composer autoload
 require_once './vendor/autoload.php';
  
@@ -92,7 +93,14 @@ if (!is_null($events['ESP'])) {
                 case "B":
                     // $Topic = "NodeMCU1" ;
 					// getMqttfromlineMsg($Topic,"ON");
-					$replyData = new TextMessageBuilder(json_encode($events));
+					var xmlhttp = new XMLHttpRequest();
+					xmlhttp.onreadystatechange = function() {
+					    if (this.readyState == 4 && this.status == 200) {
+					        document.getElementById("demo").innerHTML = "no";
+					    }
+					};
+					xmlhttp.open("GET", "checkdata.php", true);
+					xmlhttp.send();
 					break;
                 default:
                     $replyData = new TextMessageBuilder("ERROR");
