@@ -5,6 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
  require("pub.php");
  require("line.php");
+ require("test.php");
 // include composer autoload
 require_once './vendor/autoload.php';
  
@@ -87,7 +88,7 @@ if (!is_null($events['ESP'])) {
     switch ($userMessage) {
         case "yes":
             $msg = "led on";
-            // fern();
+            fern($msg);
             break; 
         case "no":
             $msg = "led off";
