@@ -118,7 +118,7 @@ if (!is_null($events['ESP'])) {
     $userMessage = $events['events'][0]['message']['text']; 
 
     $myfile = fopen("testfile.txt", "r");
-    $check = fread($myfile);
+    $check = fread($myfile,filesize("testfile.txt"));
     fclose($myfile);
     if($check == "wait"){
       switch ($userMessage) {
