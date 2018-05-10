@@ -59,6 +59,21 @@ $content = file_get_contents('php://input');
 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
 $events = json_decode($content, true);
 if (!is_null($events['ESP'])) {
+    $replyData = new TemplateMessageBuilder('Confirm Template',
+        new ConfirmTemplateBuilder(
+            'Confirm template builder', // ข้อความแนะนำหรือบอกวิธีการ หรือคำอธิบาย
+            array(
+                new MessageTemplateActionBuilder(
+                    'Yes', // ข้อความสำหรับปุ่มแรก
+                    'ON'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                ),
+                new MessageTemplateActionBuilder(
+                    'No', // ข้อความสำหรับปุ่มแรก
+                    'OFF' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                )
+            )
+        )
+    );
     send_LINE($events['ESP']);
         
     echo "OK";
