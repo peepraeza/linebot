@@ -124,15 +124,15 @@ if (!is_null($events['ESP'])) {
     // $myfile = fopen("testfile.txt", "r");
     // $check = fgets($myfile);
     // fclose($myfile);
-    $data = json_decode(file_get_contents('db.json'), true);
-    foreach ($data as $key => $entry) {
-	    if ($entry['user'] == $user) {
-	        array_push($status, $data[$key]['status']);
-	    }
-	    if ($entry['status'] == "update") {
-	        $check_update = $key;
-	    }
-	}
+ //    $data = json_decode(file_get_contents('db.json'), true);
+ //    foreach ($data as $key => $entry) {
+	//     if ($entry['user'] == $user) {
+	//         array_push($status, $data[$key]['status']);
+	//     }
+	//     if ($entry['status'] == "update") {
+	//         $check_update = $key;
+	//     }
+	// }
     if($userMessage[0]=="add" and $userMessage[1] != ""){
     	// open database and check
     	$db = json_decode(file_get_contents('db.json'),true);
