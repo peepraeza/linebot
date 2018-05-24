@@ -144,12 +144,13 @@ if (!is_null($events['ESP'])) {
 				$msg = "Add device success!";
     		}else if($check_update == ""){
     			$update = true;
+    			$db[$userMessage[1]]['status'] = "update";
     			$messages = [       
 			        "type" => "template",
-			        "altText"=> "Device already register. Do you want to change user?",
+			        "altText"=> "this is a confirm template",
 			        "template"=> [
 			          "type" => "confirm",
-			          "text"=> "Are you sure?", 
+			          "text"=> "Device already register. Do you want to change user?", 
 			          "actions" => [
 			            [
 			              "type"=> "message",
