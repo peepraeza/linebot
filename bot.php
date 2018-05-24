@@ -145,6 +145,8 @@ if (!is_null($events['ESP'])) {
     		}else if($check_update == ""){
     			$update = true;
     			$db[$userMessage[1]]['status'] = "update";
+    			$newJsonString = json_encode($db);
+				file_put_contents('db.json', $newJsonString);
     			$messages = [       
 			        "type" => "template",
 			        "altText"=> "this is a confirm template",
