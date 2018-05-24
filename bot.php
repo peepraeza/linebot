@@ -121,7 +121,8 @@ if (!is_null($events['ESP'])) {
     $check = fgets($myfile);
     fclose($myfile);
     if($userMessage){
-    	$msg = "What mac addr";
+    	$msg = $events['events'][0]['source'][0];
+    	// $msg = "What is device address?";
     }
     else if($check == "wait"){
       switch ($userMessage) {
