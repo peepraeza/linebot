@@ -122,7 +122,26 @@ if (!is_null($events['ESP'])) {
     $check = fgets($myfile);
     fclose($myfile);
     if($userMessage[0]=="add" and $userMessage[1] != ""){
-    	$msg = "What is device address?";
+    	// open database and check
+
+    	// Define the file here
+		define('JSON_FILE', 'test_data.json');
+
+		// Load and decode
+		$obj_data = json_decode(file_get_contents(JSON_FILE));
+
+		$obj_data[$user] = "test";
+		$int_bytes = file_put_contents(JSON_FILE, json_encode($obj_data));
+		$msg = "pass1";
+    }
+    else if($userMessage[0]=="update"){
+    	define('JSON_FILE', 'test_data.json');
+    	$obj_data = json_decode(file_get_contents(JSON_FILE));
+
+		$obj_data[$user] = "update";
+		$int_bytes = file_put_contents(JSON_FILE, json_encode($obj_data));
+		$msg = "pass2";
+
     }
     else if($check == "wait"){
       switch ($userMessage[0]) {
@@ -143,8 +162,7 @@ if (!is_null($events['ESP'])) {
             break;                                      
       }
     }else{
-      // $msg = "no car then no action";
-    	$msg = $userMessage[0];
+      $msg = "no car then no action";
     }
     $messages = [       
       'type' => 'text',
