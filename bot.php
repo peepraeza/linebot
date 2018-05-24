@@ -115,18 +115,18 @@ if (!is_null($events['ESP'])) {
     
         
 }else if(!is_null($events['events'])){ 
-    $userMessage = $events['events'][0]['message']['text']; 
+    $userMessage = split('=',$events['events'][0]['message']['text']); 
     $user = $events['events'][0]['source']['type'];
     $user = $events['events'][0]['source'][$user . 'Id'];
-
+    $msg = $userMessage[0];
     $myfile = fopen("testfile.txt", "r");
     $check = fgets($myfile);
     fclose($myfile);
-    if($userMessage=="register"){
+    if($userMessage[0]=="add"){
     	$msg = "What is device address?";
     }
     else if($check == "wait"){
-      switch ($userMessage) {
+      switch ($userMessage[0]) {
         case "yes":
             $msg = "led off";
             $myfile = fopen("testfile.txt", "w");
