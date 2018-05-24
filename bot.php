@@ -123,14 +123,24 @@ if (!is_null($events['ESP'])) {
     fclose($myfile);
     if($userMessage[0]=="add" and $userMessage[1] != ""){
     	// open database and check
+    	$db = json_decode(file_get_contents('db.json'),true);
+    	if(array_key_exists($userMessage[1], $db)) {
+    		$db[$userMessage[1]] = $user;
+    		$newJsonString = json_encode($db);
+			file_put_contents('db.json', $newJsonString);
+			$msg = "Add device success!";
+		}else{
+			$msg = "Error! Not device exist";
+		}
 
 		// Load and decode
-		$obj_data = json_decode(file_get_contents('test_data.json'),true);
+		// $obj_data = json_decode(file_get_contents('test_data.json'),true);
 
-		$obj_data[$user] = "test";
-		$newJsonString = json_encode($obj_data);
-		file_put_contents('test_data.json', $newJsonString);
-		$msg = "pass1";
+		// $obj_data[$user] = "test";
+		// $newJsonString = json_encode($obj_data);
+		// file_put_contents('test_data.json', $newJsonString);
+
+		// $msg = "pass1";
     }
     else if($userMessage[0]=="update"){
     	$obj_data = json_decode(file_get_contents('test_data.json'),true);
