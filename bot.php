@@ -140,7 +140,7 @@ if (!is_null($events['ESP'])) {
 				$msg = "Add device success!";
     		}else if($db['event'][$check_update]['status'] != "update" and $db['event'][$userMessage[1]]['status'] != "update"){
     			$update = true;
-    			$db['buffer'][$user] = arrey("mac" => $userMessage[1], "name" => $userMessage[2]);
+    			// $db['buffer'][$user] = arrey("mac" => $userMessage[1], "name" => $userMessage[2]);
     			$db['event'][$userMessage[1]]['status'] = "update";
     			$newJsonString = json_encode($db);
 				file_put_contents('db.json', $newJsonString);
