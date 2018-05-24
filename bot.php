@@ -115,10 +115,9 @@ if (!is_null($events['ESP'])) {
     
         
 }else if(!is_null($events['events'])){ 
-    $userMessage = split('=',$events['events'][0]['message']['text']); 
+    $userMessage = explode("=", $events['events'][0]['message']['text']); 
     $user = $events['events'][0]['source']['type'];
     $user = $events['events'][0]['source'][$user . 'Id'];
-    $msg = $userMessage[0];
     $myfile = fopen("testfile.txt", "r");
     $check = fgets($myfile);
     fclose($myfile);
@@ -144,7 +143,8 @@ if (!is_null($events['ESP'])) {
             break;                                      
       }
     }else{
-      $msg = "no car then no action";
+      // $msg = "no car then no action";
+    	$msg = $userMessage[0];
     }
     $messages = [       
       'type' => 'text',
