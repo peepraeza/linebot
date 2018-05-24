@@ -60,54 +60,58 @@ $content = file_get_contents('php://input');
 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
 $events = json_decode($content, true);
 if (!is_null($events['ESP'])) {
-  $espMessage = $events['ESP'];
+	$db = json_decode(file_get_contents('db.json'), true);
+	$device = $events['ESP']['device'];
+  $espMessage = $events['ESP']['status'];
+  $name = $db['event'][$device]['name'];
+  $user = $db['event'][$device]['user'];
   switch ($espMessage) {
     case "notcar":
-      $myfile = fopen("testfile.txt", "w");
-      fwrite($myfile, "notcar");
-      fclose($myfile);
+      $db['event'][$device]['status'] = "notcar";
+  		$newJsonString = json_encode($db);
+			file_put_contents('db.json', $newJsonString);
       break;
     case "carout":
-      $myfile = fopen("testfile.txt", "w");
-      fwrite($myfile, "notcar");
-      fclose($myfile);
+      $db['event'][$device]['status'] = "notcar";
+  		$newJsonString = json_encode($db);
+			file_put_contents('db.json', $newJsonString);
       $messages = [       
         'type' => 'text',
         'text' => 'car out'
       ];
-      send_LINE($messages);
+      send_LINE($messages, $user);
       break;
     case "ready":
-      $myfile = fopen("testfile.txt", "w");
-      fwrite($myfile, "ready");
-      fclose($myfile);
+      $db['event'][$device]['status'] = "ready";
+  		$newJsonString = json_encode($db);
+			file_put_contents('db.json', $newJsonString);
       break;
     case "wait":
-      $myfile = fopen("testfile.txt", "w");
-      fwrite($myfile, "wait");
-      fclose($myfile);
+      $db['event'][$device]['status'] = "wait";
+  		$newJsonString = json_encode($db);
+			file_put_contents('db.json', $newJsonString);
 
       $messages = [       
         "type" => "template",
         "altText"=> "this is a confirm template",
         "template"=> [
           "type" => "confirm",
-          "text"=> "Are you sure?", 
+          "text"=> $name . "detect car. Do you want to turn off?", 
           "actions" => [
             [
               "type"=> "message",
               "label"=> "Yes",
-              "text"=> "yes"
+              "text"=> "yes=" . $name
             ],
             [
               "type"=> "message",
               "label"=> "No",
-              "text"=> "no"
+              "text"=> "no=" . $name
             ]
           ]
         ]     
       ];
-      send_LINE($messages);
+      send_LINE($messages, $user);
       break;
     default:
       break;
@@ -118,17 +122,17 @@ if (!is_null($events['ESP'])) {
     $user = $events['events'][0]['source'][$user . 'Id'];
     $check_update = "";
     $update = false;
-    $status = array();
+    $device = "";
 
     $db = json_decode(file_get_contents('db.json'), true);
     if(array_key_exists($user, $db['buffer'])) {
     	$check_update = $db['buffer'][$user]['mac'];
     }
     foreach ($db['event'] as $key => $entry) {
-	    if ($entry['user'] == $user) {
-	        array_push($status, $db['event'][$key]['status']);
+	    if ($entry['user'] == $user and $entry['name'] == $userMessage[1] and $entry['status'] == "wait") {
+	        $device = $key;
 	    }
-	}
+		}
     if($userMessage[0]=="add" and $userMessage[1] != "" ){
     	// open database and check
     	if(array_key_exists($userMessage[1], $db['event'])) {
@@ -136,20 +140,20 @@ if (!is_null($events['ESP'])) {
     			$db['event'][$userMessage[1]]['user'] = $user;
     			$db['event'][$userMessage[1]]['name'] = $userMessage[2];
 	    		$newJsonString = json_encode($db);
-				file_put_contents('db.json', $newJsonString);
-				$msg = "Add device success!";
+					file_put_contents('db.json', $newJsonString);
+					$msg = "Add device success!";
     		}else if($db['event'][$check_update]['status'] != "update" and $db['event'][$userMessage[1]]['status'] != "update"){
     			$update = true;
     			$db['buffer'][$user] = array("mac" => $userMessage[1], "name" => $userMessage[2]);
     			$db['event'][$userMessage[1]]['status'] = "update";
     			$newJsonString = json_encode($db);
-				file_put_contents('db.json', $newJsonString);
+					file_put_contents('db.json', $newJsonString);
     			$messages = [       
 			        "type" => "template",
 			        "altText"=> "this is a confirm template",
 			        "template"=> [
 			          "type" => "confirm",
-			          "text"=> "Device already register. Do you want to change user?", 
+			          "text"=> "Device already register. Do you want to update?", 
 			          "actions" => [
 			            [
 			              "type"=> "message",
@@ -167,9 +171,9 @@ if (!is_null($events['ESP'])) {
     		}else{
     			$msg = "Wait for update device, Please try again";
     		}
-		}else{
-			$msg = "Error! Not device exist";
-		}
+			}else{
+				$msg = "Error! Not device exist";
+			}
     }
     else if($check_update != ""){
     	switch ($userMessage[0]) {
@@ -178,11 +182,11 @@ if (!is_null($events['ESP'])) {
 	            $db['event'][$check_update]["name"] = $db['buffer'][$user]['name'];
 	            $db['event'][$check_update]['status'] = "";
 	            unset($db['buffer'][$user]);
-				$msg = "Update device success!";
+							$msg = "Update device success!";
 	            break; 
 	        case "no":
-	        	$db['event'][$check_update]['status'] = "";
-	        	unset($db['buffer'][$user]);
+		        	$db['event'][$check_update]['status'] = "";
+		        	unset($db['buffer'][$user]);
 	            $msg = "Not update device";
 	            break;
 	        default:
@@ -190,21 +194,21 @@ if (!is_null($events['ESP'])) {
 	            break;                                      
       	}
       	$newJsonString = json_encode($db);
-		file_put_contents('db.json', $newJsonString);
+				file_put_contents('db.json', $newJsonString);
     }
-    else if(in_array("wait", $status)){
+    else if($device != ""){
       switch ($userMessage[0]) {
         case "yes":
             $msg = "led off";
-            $myfile = fopen("testfile.txt", "w");
-            fwrite($myfile, "yes");
-            fclose($myfile);
+            $db['event'][$device]['status'] = "yes";
+            $newJsonString = json_encode($db);
+						file_put_contents('db.json', $newJsonString);
             break; 
         case "no":
             $msg = "no action";
-            $myfile = fopen("testfile.txt", "w");
-            fwrite($myfile, "no");
-            fclose($myfile);
+            $db['event'][$device]['status'] = "no";
+            $newJsonString = json_encode($db);
+						file_put_contents('db.json', $newJsonString);
             break;
         default:
             $msg = "error";
