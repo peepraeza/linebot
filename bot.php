@@ -178,6 +178,7 @@ if (!is_null($events['ESP'])) {
     	switch ($userMessage[0]) {
 	        case "yes":
 	            $db[$check_update]["user"] = $user;
+	            $db[$check_update]["status"] = "";
 	    		$newJsonString = json_encode($db);
 				file_put_contents('db.json', $newJsonString);
 				$msg = "Update device success!";
