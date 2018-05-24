@@ -177,6 +177,7 @@ if (!is_null($events['ESP'])) {
     else if($check_update != ""){
     	switch ($userMessage[0]) {
 	        case "yes":
+	        	$db = json_decode(file_get_contents('db.json'),true);
 	            $db[$check_update]["user"] = $user;
 	            $db[$check_update]["status"] = "";
 	    		$newJsonString = json_encode($db);
