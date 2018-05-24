@@ -1,5 +1,5 @@
-[
-    {"mac":"123", "user":"", "status":""},
-    {"mac":"223", "user":"", "status":""},
-    {"mac":"333", "user":"", "status":""} 
-]
+{
+    "123": {"user":"", "status":""},
+    "223": {"user":"", "status":""},
+    "333": {"user":"", "status":""} 
+}

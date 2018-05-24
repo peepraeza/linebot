@@ -130,15 +130,15 @@ if (!is_null($events['ESP'])) {
 	        array_push($status, $data[$key]['status']);
 	    }
 	    if ($entry['status'] == "update") {
-	        $check_update = $data[$key]['mac'];
+	        $check_update = $key;
 	    }
 	}
     if($userMessage[0]=="add" and $userMessage[1] != ""){
     	// open database and check
     	$db = json_decode(file_get_contents('db.json'),true);
     	if(array_key_exists($userMessage[1], $db)) {
-    		if($db[$userMessage[1]] == ""){
-    			$db[$userMessage[1]] = $user;
+    		if($db[$userMessage[1]]['user'] == ""){
+    			$db[$userMessage[1]]['user'] = $user;
 	    		$newJsonString = json_encode($db);
 				file_put_contents('db.json', $newJsonString);
 				$msg = "Add device success!";
@@ -174,7 +174,7 @@ if (!is_null($events['ESP'])) {
     else if($check_update != ""){
     	switch ($userMessage[0]) {
 	        case "yes":
-	            $db[$check_update] = $user;
+	            $db[$check_update]["user"] = $user;
 	    		$newJsonString = json_encode($db);
 				file_put_contents('db.json', $newJsonString);
 				$msg = "Update device success!";
