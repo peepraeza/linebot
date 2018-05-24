@@ -122,7 +122,7 @@ if (!is_null($events['ESP'])) {
     fclose($myfile);
     if($userMessage){
     	$msg = $events['events'][0]['source']['type'];
-    	$msg = $events['events'][0]['source'][$msg];
+    	$msg = $events['events'][0]['source'][$msg . 'Id'];
 
     	// $msg = "What is device address?";
     }
