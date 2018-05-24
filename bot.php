@@ -96,7 +96,7 @@ if (!is_null($events['ESP'])) {
         "altText"=> "this is a confirm template",
         "template"=> [
           "type" => "confirm",
-          "text"=> $name . "detect car. Do you want to turn off?", 
+          "text"=> "(" . $name . ") detect car. Do you want to turn off?", 
           "actions" => [
             [
               "type"=> "message",
@@ -123,6 +123,7 @@ if (!is_null($events['ESP'])) {
     $check_update = "";
     $update = false;
     $device = "";
+    $all_device = array();
 
     $db = json_decode(file_get_contents('db.json'), true);
     if(array_key_exists($user, $db['buffer'])) {
@@ -132,16 +133,23 @@ if (!is_null($events['ESP'])) {
 	    if ($entry['user'] == $user and $entry['name'] == $userMessage[1] and $entry['status'] == "wait") {
 	        $device = $key;
 	    }
+	    if($entry['user'] == $user){
+	    	array_push($all_device, $entry['name']);
+	    }
 		}
-    if($userMessage[0]=="add" and $userMessage[1] != "" ){
+    if($userMessage[0]=="add" and $userMessage[1] != "" and $userMessage[2] != "" and $device == ""){
     	// open database and check
     	if(array_key_exists($userMessage[1], $db['event'])) {
     		if($db['event'][$userMessage[1]]['user'] == ""){
-    			$db['event'][$userMessage[1]]['user'] = $user;
-    			$db['event'][$userMessage[1]]['name'] = $userMessage[2];
-	    		$newJsonString = json_encode($db);
-					file_put_contents('db.json', $newJsonString);
-					$msg = "Add device success!";
+    			if(in_array($userMessage[2], $all_device)){
+    				$msg = "name:" . $userMessage[2] ."is exist! Please try again";
+    			}else{
+	    			$db['event'][$userMessage[1]]['user'] = $user;
+	    			$db['event'][$userMessage[1]]['name'] = $userMessage[2];
+		    		$newJsonString = json_encode($db);
+						file_put_contents('db.json', $newJsonString);
+						$msg = "Add device success!";
+					}
     		}else if($db['event'][$check_update]['status'] != "update" and $db['event'][$userMessage[1]]['status'] != "update"){
     			$update = true;
     			$db['buffer'][$user] = array("mac" => $userMessage[1], "name" => $userMessage[2]);
