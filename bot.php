@@ -116,15 +116,14 @@ if (!is_null($events['ESP'])) {
         
 }else if(!is_null($events['events'])){ 
     $userMessage = $events['events'][0]['message']['text']; 
+    $user = $events['events'][0]['source']['type'];
+    $user = $events['events'][0]['source'][$user . 'Id'];
 
     $myfile = fopen("testfile.txt", "r");
     $check = fgets($myfile);
     fclose($myfile);
-    if($userMessage){
-    	$msg = $events['events'][0]['source']['type'];
-    	$msg = $events['events'][0]['source'][$msg . 'Id'];
-
-    	// $msg = "What is device address?";
+    if($userMessage=="register"){
+    	$msg = "What is device address?";
     }
     else if($check == "wait"){
       switch ($userMessage) {
@@ -151,7 +150,7 @@ if (!is_null($events['ESP'])) {
       'type' => 'text',
       'text' => $msg
     ];
-    send_LINE($messages);
+    send_LINE($messages, $user);
 }
 
 
