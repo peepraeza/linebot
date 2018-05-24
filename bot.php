@@ -121,7 +121,7 @@ if (!is_null($events['ESP'])) {
     $myfile = fopen("testfile.txt", "r");
     $check = fgets($myfile);
     fclose($myfile);
-    if($userMessage[0]=="add"){
+    if($userMessage[0]=="add" and $userMessage[1] != ""){
     	$msg = "What is device address?";
     }
     else if($check == "wait"){
