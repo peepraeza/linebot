@@ -124,22 +124,20 @@ if (!is_null($events['ESP'])) {
     if($userMessage[0]=="add" and $userMessage[1] != ""){
     	// open database and check
 
-    	// Define the file here
-		define('JSON_FILE', 'test_data.json');
-
 		// Load and decode
-		$obj_data = json_decode(file_get_contents(JSON_FILE));
+		$obj_data = json_decode(file_get_contents('test_data.json'),true);
 
 		$obj_data[$user] = "test";
-		$int_bytes = file_put_contents(JSON_FILE, json_encode($obj_data));
+		$newJsonString = json_encode($obj_data);
+		file_put_contents('test_data.json', $newJsonString);
 		$msg = "pass1";
     }
     else if($userMessage[0]=="update"){
-    	define('JSON_FILE', 'test_data.json');
-    	$obj_data = json_decode(file_get_contents(JSON_FILE));
+    	$obj_data = json_decode(file_get_contents('test_data.json'),true);
 
 		$obj_data[$user] = "update";
-		$int_bytes = file_put_contents(JSON_FILE, json_encode($obj_data));
+		$newJsonString = json_encode($obj_data);
+		file_put_contents('test_data.json', $newJsonString);
 		$msg = "pass2";
 
     }
