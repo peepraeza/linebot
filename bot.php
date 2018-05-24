@@ -119,7 +119,7 @@ if (!is_null($events['ESP'])) {
     $user = $events['events'][0]['source']['type'];
     $user = $events['events'][0]['source'][$user . 'Id'];
     $check_update = "";
-    $update = false;
+    // $update = false;
     $status = array();
     // $myfile = fopen("testfile.txt", "r");
     // $check = fgets($myfile);
@@ -144,26 +144,26 @@ if (!is_null($events['ESP'])) {
 				$msg = "Add device success!";
     		}else($check_update == ""){
     			$update = true;
-    			$messages = [       
-			        "type" => "template",
-			        "altText"=> "Device already register. Do you want to change user?",
-			        "template"=> [
-			          "type" => "confirm",
-			          "text"=> "Are you sure?", 
-			          "actions" => [
-			            [
-			              "type"=> "message",
-			              "label"=> "Yes",
-			              "text"=> "yes"
-			            ],
-			            [
-			              "type"=> "message",
-			              "label"=> "No",
-			              "text"=> "no"
-			            ]
-			          ]
-			        ]     
-			      ];
+    			// $messages = [       
+			    //     "type" => "template",
+			    //     "altText"=> "Device already register. Do you want to change user?",
+			    //     "template"=> [
+			    //       "type" => "confirm",
+			    //       "text"=> "Are you sure?", 
+			    //       "actions" => [
+			    //         [
+			    //           "type"=> "message",
+			    //           "label"=> "Yes",
+			    //           "text"=> "yes"
+			    //         ],
+			    //         [
+			    //           "type"=> "message",
+			    //           "label"=> "No",
+			    //           "text"=> "no"
+			    //         ]
+			    //       ]
+			    //     ]     
+			    //   ];
     		}else{
     			$msg = "Wait for update device, Please try again";
     		}
