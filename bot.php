@@ -118,40 +118,76 @@ if (!is_null($events['ESP'])) {
     $userMessage = explode("=", $events['events'][0]['message']['text']); 
     $user = $events['events'][0]['source']['type'];
     $user = $events['events'][0]['source'][$user . 'Id'];
-    $myfile = fopen("testfile.txt", "r");
-    $check = fgets($myfile);
-    fclose($myfile);
+    $check_update = "";
+    $update = false;
+    $status = array();
+    // $myfile = fopen("testfile.txt", "r");
+    // $check = fgets($myfile);
+    // fclose($myfile);
+    $data = json_decode(file_get_contents('db.json'), true);
+    foreach ($data as $key => $entry) {
+	    if ($entry['user'] == $user) {
+	        array_push($status, $data[$key]['status']);
+	    }
+	    if ($entry['status'] == "update") {
+	        $check_update = $data[$key]['mac'];
+	    }
+	}
     if($userMessage[0]=="add" and $userMessage[1] != ""){
     	// open database and check
     	$db = json_decode(file_get_contents('db.json'),true);
     	if(array_key_exists($userMessage[1], $db)) {
-    		$db[$userMessage[1]] = $user;
-    		$newJsonString = json_encode($db);
-			file_put_contents('db.json', $newJsonString);
-			$msg = "Add device success!";
+    		if($db[$userMessage[1]] == ""){
+    			$db[$userMessage[1]] = $user;
+	    		$newJsonString = json_encode($db);
+				file_put_contents('db.json', $newJsonString);
+				$msg = "Add device success!";
+    		}else($check_update == ""){
+    			$update = true;
+    			$messages = [       
+			        "type" => "template",
+			        "altText"=> "Device already register. Do you want to change user?",
+			        "template"=> [
+			          "type" => "confirm",
+			          "text"=> "Are you sure?", 
+			          "actions" => [
+			            [
+			              "type"=> "message",
+			              "label"=> "Yes",
+			              "text"=> "yes"
+			            ],
+			            [
+			              "type"=> "message",
+			              "label"=> "No",
+			              "text"=> "no"
+			            ]
+			          ]
+			        ]     
+			      ];
+    		}else{
+    			$msg = "Wait for update device, Please try again";
+    		}
 		}else{
 			$msg = "Error! Not device exist";
 		}
-
-		// Load and decode
-		// $obj_data = json_decode(file_get_contents('test_data.json'),true);
-
-		// $obj_data[$user] = "test";
-		// $newJsonString = json_encode($obj_data);
-		// file_put_contents('test_data.json', $newJsonString);
-
-		// $msg = "pass1";
     }
-    else if($userMessage[0]=="update"){
-    	$obj_data = json_decode(file_get_contents('test_data.json'),true);
-
-		$obj_data[$user] = "update";
-		$newJsonString = json_encode($obj_data);
-		file_put_contents('test_data.json', $newJsonString);
-		$msg = "pass2";
-
+    else if($check_update != ""){
+    	switch ($userMessage[0]) {
+	        case "yes":
+	            $db[$check_update] = $user;
+	    		$newJsonString = json_encode($db);
+				file_put_contents('db.json', $newJsonString);
+				$msg = "Update device success!";
+	            break; 
+	        case "no":
+	            $msg = "Not update device";
+	            break;
+	        default:
+	            $msg = "Error Update device";
+	            break;                                      
+      	}
     }
-    else if($check == "wait"){
+    else if(in_array("wait", $status)){
       switch ($userMessage[0]) {
         case "yes":
             $msg = "led off";
@@ -172,10 +208,12 @@ if (!is_null($events['ESP'])) {
     }else{
       $msg = "no car then no action";
     }
-    $messages = [       
-      'type' => 'text',
-      'text' => $msg
-    ];
+    if($update == false){
+	    $messages = [       
+	      'type' => 'text',
+	      'text' => $msg
+	    ];
+	}
     send_LINE($messages, $user);
 }
 
