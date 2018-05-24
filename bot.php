@@ -168,8 +168,6 @@ if (!is_null($events['ESP'])) {
 			          ]
 			        ]     
 			      ];
-    		}else{
-    			$msg = "Wait for update device, Please try again";
     		}
 		}else{
 			$msg = "Error! Not device exist";
