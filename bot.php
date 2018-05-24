@@ -208,12 +208,12 @@ if (!is_null($events['ESP'])) {
     }else{
       $msg = "no car then no action";
     }
-    if($update == false){
+    // if($update == false){
 	    $messages = [       
 	      'type' => 'text',
 	      'text' => $msg
 	    ];
-	}
+	// }
     send_LINE($messages, $user);
 }
 
