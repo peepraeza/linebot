@@ -142,7 +142,7 @@ if (!is_null($events['ESP'])) {
     	if(array_key_exists($userMessage[1], $db['event'])) {
     		if($db['event'][$userMessage[1]]['user'] == ""){
     			if(in_array($userMessage[2], $all_device)){
-    				$msg = "name:" . $userMessage[2] ."is exist! Please try again";
+    				$msg = "name:" . $userMessage[2] ." is exist! Please try again";
     			}else{
 	    			$db['event'][$userMessage[1]]['user'] = $user;
 	    			$db['event'][$userMessage[1]]['name'] = $userMessage[2];
