@@ -129,7 +129,7 @@ if (!is_null($events['ESP'])) {
 	        array_push($status, $db['event'][$key]['status']);
 	    }
 	}
-    if($userMessage[0]=="add" and $userMessage[1] != ""){
+    if($userMessage[0]=="add" and $userMessage[1] != "" and $userMessage[2] != ""){
     	// open database and check
     	if(array_key_exists($userMessage[1], $db['event'])) {
     		if($db['event'][$userMessage[1]]['user'] == ""){
