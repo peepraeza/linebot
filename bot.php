@@ -112,8 +112,6 @@ if (!is_null($events['ESP'])) {
     default:
       break;
   }
-    
-        
 }else if(!is_null($events['events'])){ 
     $userMessage = explode("=", $events['events'][0]['message']['text']); 
     $user = $events['events'][0]['source']['type'];
@@ -124,28 +122,25 @@ if (!is_null($events['ESP'])) {
 
     $db = json_decode(file_get_contents('db.json'), true);
     if(array_key_exists($user, $db['buffer'])) {
-    	$check_update = $db['buffer'][$user];
+    	$check_update = $db['buffer'][$user]['mac'];
     }
     foreach ($db['event'] as $key => $entry) {
 	    if ($entry['user'] == $user) {
 	        array_push($status, $db['event'][$key]['status']);
 	    }
-	    // if ($entry['status'] == "update") {
-	    //     $check_update = $key;
-	    // }
 	}
     if($userMessage[0]=="add" and $userMessage[1] != ""){
     	// open database and check
-    	// $db = json_decode(file_get_contents('db.json'),true);
     	if(array_key_exists($userMessage[1], $db['event'])) {
     		if($db['event'][$userMessage[1]]['user'] == ""){
     			$db['event'][$userMessage[1]]['user'] = $user;
+    			$db['event'][$userMessage[1]]['name'] = $userMessage[2];
 	    		$newJsonString = json_encode($db);
 				file_put_contents('db.json', $newJsonString);
 				$msg = "Add device success!";
     		}else if($db['event'][$check_update]['status'] != "update" and $db['event'][$userMessage[1]]['status'] != "update"){
     			$update = true;
-    			$db['buffer'][$user] = $userMessage[1];
+    			$db['buffer'][$user] = arrey("mac" => $userMessage[1], "name" => $userMessage[2]);
     			$db['event'][$userMessage[1]]['status'] = "update";
     			$newJsonString = json_encode($db);
 				file_put_contents('db.json', $newJsonString);
@@ -177,10 +172,10 @@ if (!is_null($events['ESP'])) {
 		}
     }
     else if($check_update != ""){
-    	// $db = json_decode(file_get_contents('db.json'),true);
     	switch ($userMessage[0]) {
 	        case "yes":
 	            $db['event'][$check_update]["user"] = $user;
+	            $db['event'][$check_update]["name"] = $db['buffer'][$user]['name'];;
 	            $db['event'][$check_update]['status'] = "";
 	            unset($db['buffer'][$user]);
 				$msg = "Update device success!";
