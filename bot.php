@@ -175,22 +175,23 @@ if (!is_null($events['ESP'])) {
 		}
     }
     else if($check_update != ""){
+    	$db = json_decode(file_get_contents('db.json'),true);
     	switch ($userMessage[0]) {
 	        case "yes":
-	        	$db = json_decode(file_get_contents('db.json'),true);
 	            $db[$check_update]["user"] = $user;
 	            $db[$check_update]["status"] = "";
-	    		$newJsonString = json_encode($db);
-				file_put_contents('db.json', $newJsonString);
 				$msg = "Update device success!";
 	            break; 
 	        case "no":
+	        	$db[$check_update]["status"] = "";
 	            $msg = "Not update device";
 	            break;
 	        default:
 	            $msg = "Error Update device";
 	            break;                                      
       	}
+      	$newJsonString = json_encode($db);
+		file_put_contents('db.json', $newJsonString);
     }
     else if(in_array("wait", $status)){
       switch ($userMessage[0]) {
