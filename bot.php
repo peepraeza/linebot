@@ -120,7 +120,10 @@ if (!is_null($events['ESP'])) {
     $myfile = fopen("testfile.txt", "r");
     $check = fgets($myfile);
     fclose($myfile);
-    if($check == "wait"){
+    if($userMessage){
+    	$msg = "What mac addr";
+    }
+    else if($check == "wait"){
       switch ($userMessage) {
         case "yes":
             $msg = "led off";
