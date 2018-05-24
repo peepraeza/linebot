@@ -143,7 +143,7 @@ if (!is_null($events['ESP'])) {
 	    		$newJsonString = json_encode($db);
 				file_put_contents('db.json', $newJsonString);
 				$msg = "Add device success!";
-    		}else if($db['event'][$check_update[1]]['status'] != "update"){
+    		}else if($db['event'][$check_update]['status'] != "update"){
     			$update = true;
     			$db['buffer'][$user] = $userMessage[1];
     			$db['event'][$userMessage[1]]['status'] = "update";
@@ -181,12 +181,12 @@ if (!is_null($events['ESP'])) {
     	switch ($userMessage[0]) {
 	        case "yes":
 	            $db['event'][$check_update]["user"] = $user;
-	            $db['event'][$check_update[1]]['status'] = "";
+	            $db['event'][$check_update]['status'] = "";
 	            unset($db['buffer'][$user]);
 				$msg = "Update device success!";
 	            break; 
 	        case "no":
-	        	$db['event'][$check_update[1]]['status'] = "";
+	        	$db['event'][$check_update]['status'] = "";
 	        	unset($db['buffer'][$user]);
 	            $msg = "Not update device";
 	            break;
