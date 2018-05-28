@@ -59,33 +59,35 @@ void send_json(String data){
     http.end();  //Close connection
 }
 void wait_user(){
-    String url = "http://test4embedded.herokuapp.com/testfile.txt"; //ไม่ต้องเปลี่ยน สำหรับทดลอง
+    String url = "http://test4embedded.herokuapp.com/db.json"; //ไม่ต้องเปลี่ยน สำหรับทดลอง
     Serial.println();
     HTTPClient http;
     http.begin(url);
     int httpCode = http.GET();
     if (httpCode == 200) {
-      String content = http.getString();
-      Serial.println(content);
-
-      int Valueyes = -1;
-      int Valueno = -1;   
-      Valueyes = content.indexOf("yes");
-      Valueno = content.indexOf("no");
+      const size_t bufferSize = JSON_OBJECT_SIZE(2) + JSON_OBJECT_SIZE(3) + JSON_OBJECT_SIZE(5) + JSON_OBJECT_SIZE(8) + 370;
+      DynamicJsonBuffer jsonBuffer(bufferSize);
+      JsonObject& root = jsonBuffer.parseObject(http.getString());
+      // Parameters
+       String content = root["event"][WiFi.macAddress()]["status"]; // "Leanne Graham"
       
-      if (Valueyes and Valueno == -1){
+      Serial.println(content);
+      
+      if (content == "wait"){
           Serial.print("\nAwaiting Command\n");    
       } 
-      if (Valueyes != -1){
+      else if (content == "yes"){
           digitalWrite(led,  0);
           check = 2;
           Serial.print("\nSay Yes\n"); 
           send_json("ready");    
       }
-      if (Valueno != -1){
+      else if (content == "no"){
           check = 2;
           Serial.print("\nSay No\n");   
           send_json("ready");
+      }else{
+          Serial.print("\nerror\n");
       }
     } else {
        Serial.println("Fail. error code " + String(httpCode));
