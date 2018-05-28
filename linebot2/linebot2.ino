@@ -33,14 +33,16 @@ void setup() {
 }
 
 void send_json(String data){
+  
     StaticJsonBuffer<300> JSONbuffer;   //Declaring static JSON buffer
-    JsonObject& esp = JSONbuffer.createNestedObject("ESP"); 
+    JsonObject& root = JSONbuffer.createObject(); 
+    JsonObject& esp = root.createNestedObject("ESP"); 
     
     esp["device"] = WiFi.macAddress();
     esp["status"] = data;
 
     char JSONmessageBuffer[300];
-    JSONencoder.prettyPrintTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
+    root.prettyPrintTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
     Serial.println(JSONmessageBuffer);
  
     HTTPClient http;    //Declare object of class HTTPClient
