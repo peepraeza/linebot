@@ -34,9 +34,10 @@ void setup() {
 
 void send_json(String data){
     StaticJsonBuffer<300> JSONbuffer;   //Declaring static JSON buffer
-    JsonObject& JSONencoder = JSONbuffer.createObject(); 
- 
-    JSONencoder["ESP"] = data;
+    JsonObject& esp = JSONbuffer.createNestedObject("ESP"); 
+    
+    esp["device"] = WiFi.macAddress();
+    esp["status"] = data;
 
     char JSONmessageBuffer[300];
     JSONencoder.prettyPrintTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
