@@ -96,17 +96,17 @@ if (!is_null($events['ESP'])) {
         "altText"=> "this is a confirm template",
         "template"=> [
           "type" => "confirm",
-          "text"=> "(" . $name . ") detect car. Do you want to turn off?", 
+          "text"=> "detect car. Do you want to turn off?", 
           "actions" => [
             [
               "type"=> "message",
               "label"=> "Yes",
-              "text"=> "yes=" . $name
+              "text"=> "yes="
             ],
             [
               "type"=> "message",
               "label"=> "No",
-              "text"=> "no=" . $name
+              "text"=> "no="
             ]
           ]
         ]     
