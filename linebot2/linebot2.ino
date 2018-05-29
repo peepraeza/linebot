@@ -59,7 +59,7 @@ void send_json(String data){
     http.end();  //Close connection
 }
 void wait_user(){
-    String url = "http://test4embedded.herokuapp.com/testfile.txt"; //ไม่ต้องเปลี่ยน สำหรับทดลอง
+    String url = "http://test4embedded.herokuapp.com/db.json"; //ไม่ต้องเปลี่ยน สำหรับทดลอง
     Serial.println();
     HTTPClient http;
     http.begin(url);
