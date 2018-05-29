@@ -207,7 +207,7 @@ if (!is_null($events['ESP'])) {
     else if($device != ""){
       switch ($userMessage[0]) {
         case "yes":
-            $msg = "led off";
+            $msg = "หยุดการทำงาน";
             $db['event'][$device]['status'] = "yes";
             $newJsonString = json_encode($db);
 						file_put_contents('db.json', $newJsonString);
