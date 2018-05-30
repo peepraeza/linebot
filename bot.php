@@ -138,7 +138,6 @@ if (!is_null($events['ESP'])) {
 	    }
 		}
     if($userMessage[0]=="add" and $userMessage[1] != "" and $userMessage[2] != "" and $device == ""){
-    	// open database and check
     	if(array_key_exists($userMessage[1], $db['event'])) {
     		if($db['event'][$userMessage[1]]['user'] == ""){
     			if(in_array($userMessage[2], $all_device)){
@@ -182,6 +181,28 @@ if (!is_null($events['ESP'])) {
 			}else{
 				$msg = "Error! Not device exist";
 			}
+    }
+    else if($userMessage[0] == "test"){
+    	$messages = [       
+        "type" => "template",
+        "altText"=> "this is a confirm template",
+        "template"=> [
+          "type" => "confirm",
+          "text"=> "(" . $name . ") detect car. Do you want to turn off?", 
+          "actions" => [
+            [
+              "type"=> "message",
+              "label"=> "Yes",
+              "text"=> "yes=" . $name
+            ],
+            [
+              "type"=> "message",
+              "label"=> "No",
+              "text"=> "no=" . $name
+            ]
+          ]
+        ]     
+      ];
     }
     else if($check_update != ""){
     	switch ($userMessage[0]) {
