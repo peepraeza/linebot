@@ -183,6 +183,7 @@ if (!is_null($events['ESP'])) {
 			}
     }
     else if($userMessage[0] == "test"){
+    	$update = true;
     	$messages = [       
         "type" => "template",
         "altText"=> "this is a confirm template",
