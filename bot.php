@@ -182,29 +182,7 @@ if (!is_null($events['ESP'])) {
 				$msg = "Error! Not device exist";
 			}
     }
-    else if($userMessage[0] == "test"){
-    	$update = true;
-    	$messages = [       
-        "type" => "template",
-        "altText"=> "this is a confirm template",
-        "template"=> [
-          "type" => "confirm",
-          "text"=> "(device1) detect car. Do you want to turn off?", 
-          "actions" => [
-            [
-              "type"=> "message",
-              "label"=> "Yes",
-              "text"=> "yes=device1"
-            ],
-            [
-              "type"=> "message",
-              "label"=> "No",
-              "text"=> "no=device1"
-            ]
-          ]
-        ]     
-      ];
-    }
+
     else if($check_update != ""){
     	switch ($userMessage[0]) {
 	        case "yes":
