@@ -138,7 +138,6 @@ if (!is_null($events['ESP'])) {
 	    }
 		}
     if($userMessage[0]=="add" and $userMessage[1] != "" and $userMessage[2] != "" and $device == ""){
-    	// open database and check
     	if(array_key_exists($userMessage[1], $db['event'])) {
     		if($db['event'][$userMessage[1]]['user'] == ""){
     			if(in_array($userMessage[2], $all_device)){
@@ -183,6 +182,7 @@ if (!is_null($events['ESP'])) {
 				$msg = "Error! Not device exist";
 			}
     }
+
     else if($check_update != ""){
     	switch ($userMessage[0]) {
 	        case "yes":
@@ -207,7 +207,7 @@ if (!is_null($events['ESP'])) {
     else if($device != ""){
       switch ($userMessage[0]) {
         case "yes":
-            $msg = "led off";
+            $msg = "หยุดการทำงาน";
             $db['event'][$device]['status'] = "yes";
             $newJsonString = json_encode($db);
 						file_put_contents('db.json', $newJsonString);
