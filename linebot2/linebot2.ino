@@ -153,8 +153,9 @@ float get_distance() {
     return distance;
 }
 void loop() {
-    digitalWrite(D0, LOW);  // turn off the LED  
-
+    digitalWrite(D0, LOW);  // turn off the LED 
+     delay(500);
+    digitalWrite(D0, HIGH);  // turn off the LED  
     float distance = get_distance();
     if(check==0){
       while(distance > 7){
