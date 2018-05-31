@@ -1,11 +1,7 @@
 {
 	"event":{
 	    "60:01:94:09:AF:53": {"name":"", "user":"", "status":""},
-	    "5C:CF:7F:D0:FA:B5": {"name":"", "user":"", "status":""},
-	    "333": {"name":"", "user":"", "status":""} 
-	},
-	"esp":{
-
+	    "5C:CF:7F:D0:FA:B5": {"name":"", "user":"", "status":""}
 	},
 	"buffer":{
 
